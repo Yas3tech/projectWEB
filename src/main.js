@@ -22,20 +22,38 @@ const home = (container) => {
     </nav>
   `;
 };
- async function landen(container) {
-const landen =  await getInfoLanden();
+async function landen(container) {
+  const landen = await getInfoLanden(); // Haal de landen op
+  const filterLanden = landen.filter((land, index) => index !== 160);
   container.innerHTML = `
-  <h1>Landen</h1>
-  <p>Welkom op de landenpage</p>
-  <ul>
-   ${landen.map(land => `<li>${land.name.official}</li>`)}
-  </ul>
+    <h1>Landen</h1>
+    <p>Welkom op de landenpagina</p>
+    <div class="card-container">
+      ${filterLanden.map(land => {
+        const naam = land.name.official;
+        const hoofdstad = land.capital;
+        const geld = land.currencies;
+        const continent = land.region;
+        const vlag = land.flags.png;
+
+        return `
+          <div class="card">
+            <img src="${vlag}" alt="Vlag van ${naam}" class="card-flag">
+            <h2>${naam}</h2>
+            <p><strong>Hoofdstad:</strong> ${hoofdstad}</p>
+            <p><strong>Regio:</strong> ${continent}</p>
+            <p><strong>Valuta:</strong> ${geld}</p>
+          </div>
+        `;
+      }).join('')}
+    </div>
     <nav>
-    <a href="#/">Terug naar home</a>
+      <a href="#/">Terug naar home</a>
       <a href="#/contact">Contact</a>
     </nav>
   `;
-};
+}
+
  
 const contact = (container) => {
   container.innerHTML = `
