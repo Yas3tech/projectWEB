@@ -1,4 +1,4 @@
-/* Mise en page générale */
+
 body {
   margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -11,7 +11,10 @@ body {
   flex-direction: column;
 }
 
-/* Titre principal */
+p {
+  text-align: center;
+}
+
 h1 {
   font-size: 3.2rem;
   line-height: 1.1;
@@ -28,7 +31,6 @@ h1 {
   max-width: 1280px;
   margin: 0 auto;
 }
-
 
 .card {
   background-color: #333;
