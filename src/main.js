@@ -17,14 +17,14 @@ const home = (container) => {
   <h1>Home</h1>
   <p>Welkom op de homepage</p>
     <nav>
-      <a href="#/contact">Contact</a>
+      <a href="#/contact">Contact</a> <br>
       <a href="#/landen">Landen</a>
     </nav>
   `;
 };
 async function landen(container) {
   const landen = await getInfoLanden(); // Haal de landen op
-  const filterLanden = landen.filter((land, index) => index !== 160);
+  const filterLanden = landen.filter((land, index) => index !== 88);
   container.innerHTML = `
     <h1>Landen</h1>
     <p>Welkom op de landenpagina</p>
@@ -41,8 +41,8 @@ async function landen(container) {
             <img src="${vlag}" alt="Vlag van ${naam}" class="card-flag">
             <h2>${naam}</h2>
             <p><strong>Hoofdstad:</strong> ${hoofdstad}</p>
-            <p><strong>Regio:</strong> ${continent}</p>
-            <p><strong>Valuta:</strong> ${geld}</p>
+            <p><strong>Continent:</strong> ${continent}</p>
+            <p><strong>Munt:</strong> ${geld}</p>
           </div>
         `;
       }).join('')}
