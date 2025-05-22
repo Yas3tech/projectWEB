@@ -169,7 +169,11 @@ export async function landen(container) {
         : naamB.localeCompare(naamA);
     });
 
-    toonLanden(gefilterd, containerCards, filterEnToonLanden);
+    if (gefilterd.length === 0) {
+        containerCards.innerHTML = `<p>Geen landen gevonden.</p>`;
+      } else {
+        toonLanden(gefilterd, containerCards, filterEnToonLanden);
+      }
   }
 
   zoekInput.addEventListener('input', filterEnToonLanden);
