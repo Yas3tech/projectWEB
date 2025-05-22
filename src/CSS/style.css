@@ -1,30 +1,93 @@
-
-body {
-  margin: 0;
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #242424; 
-  color: rgba(255, 255, 255, 0.87); 
+/* Search input animatie en stijl */
+.search-container {
+  background: #fff;
+  height: 30px;
+  border-radius: 30px;
+  padding: 10px 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  flex-direction: column;
-}
-nav{
-  text-align: center;
-}
-p {
-  text-align: center;
+  width: fit-content;
+  margin: 2rem auto;
 }
 
-h1 {
-  font-size: 3.2rem;
-  line-height: 1.1;
-  text-align: center;
-  margin-bottom: 1rem;
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  transition: 0.8s;
+  width: 0px;
 }
 
+.search-container:hover .search-input {
+  width: 400px;
+}
 
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.search-btn .fas {
+  color: #5cbdbb;
+}
+
+/* Suggestielijst */
+.suggesties {
+  position: absolute;
+  background: white;
+  color: black;
+  list-style: none;
+  border-radius: 0 0 10px 10px;
+  width: 400px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+}
+
+.suggesties li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggesties li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Menu bar stijl */
+.menu-bar {
+  border-radius: 25px;
+  display: inline-flex;
+  background-color: rgba(0, 0, 0, .4);
+  padding: 0 10px;
+  margin: 30px auto;
+  list-style: none;
+  gap: 1rem;
+}
+
+.menu-bar li {
+  font-family: sans-serif;
+  font-weight: bold;
+  padding: 12px 16px;
+  color: white;
+  cursor: pointer;
+}
+
+.menu-bar li:hover {
+  color: black;
+  background: linear-gradient(to bottom, #e8edec, #d2d1d3);
+  box-shadow: 0px 3px 20px 0px black;
+}
+
+.menu-bar li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Kaarten en layout */
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
@@ -35,50 +98,27 @@ h1 {
 }
 
 .card {
-  background-color: #333;
+  background-color: #f4f4f4;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
-  color: #fff;
+  color: #222;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
-
 
 .card-flag {
   max-width: 100px;
   margin-bottom: 1rem;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  background-color: #1a1a1a;
-  color: #fff;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-button:hover {
-  border-color: #646cff;
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #b2e0df;
 }
 
 
