@@ -1,102 +1,156 @@
-/* Search input animatie en stijl */
-.search-container {
-  background: #fff;
-  height: 30px;
-  border-radius: 30px;
-  padding: 10px 20px;
+/* Reset en basisinstellingen */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Lato', sans-serif;
+  background-color: #b2e0df;
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width: fit-content;
-  margin: 2rem auto;
 }
 
-.search-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  transition: 0.8s;
-  width: 0px;
-}
-
-.search-container:hover .search-input {
-  width: 400px;
-}
-
-.search-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.search-btn .fas {
-  color: #5cbdbb;
-}
-
-/* Suggestielijst */
-.suggesties {
-  position: absolute;
-  background: white;
-  color: black;
-  list-style: none;
-  border-radius: 0 0 10px 10px;
-  width: 400px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  margin-top: 5px;
-}
-
-.suggesties li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.suggesties li:hover {
-  background-color: #f0f0f0;
-}
-
-/* Menu bar stijl */
+/* Navigatiebalk */
 .menu-bar {
-  border-radius: 25px;
-  display: inline-flex;
-  background-color: rgba(0, 0, 0, .4);
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 0 10px;
   margin: 30px auto;
-  list-style: none;
-  gap: 1rem;
+  border-radius: 25px;
+  max-width: 700px;
+  width: 100%;
 }
 
 .menu-bar li {
-  font-family: sans-serif;
-  font-weight: bold;
   padding: 12px 16px;
+  font-weight: bold;
   color: white;
   cursor: pointer;
+  white-space: nowrap;
+  font-family: sans-serif;
+  transition: color 0.3s, background 0.3s, box-shadow 0.3s;
 }
 
 .menu-bar li:hover {
   color: black;
   background: linear-gradient(to bottom, #e8edec, #d2d1d3);
-  box-shadow: 0px 3px 20px 0px black;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.6);
 }
 
 .menu-bar li a {
   text-decoration: none;
   color: inherit;
+  display: block;
 }
 
-/* Kaarten en layout */
+/* Zoekbalk container */
+.search-container {
+  background: #fff;
+  height: 40px;
+  border-radius: 30px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  width: 40px; /* Start smal als knop */
+  max-width: 500px;
+  margin: 2rem auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow:
+    4px 4px 6px rgba(255,255,255,0.3),
+    -4px -4px 6px rgba(116,125,136,0.2),
+    inset -4px -4px 6px rgba(255,255,255,0.2),
+    inset 4px 4px 6px rgba(0,0,0,0.2);
+  transition: width 0.5s ease;
+}
+
+/* Zoekbalk uitklappen bij hover of focus */
+.search-container:hover,
+.search-container:focus-within {
+  width: 100%;
+  max-width: 500px;
+  cursor: text;
+}
+
+/* Zoekinput */
+.search-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 0;
+  padding: 0;
+  margin-left: 10px;
+  transition: width 0.5s ease, padding 0.5s ease;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Uitklappen input */
+.search-container:hover > .search-input,
+.search-container:focus-within > .search-input {
+  width: 100%;
+  padding: 0 10px;
+  cursor: text;
+}
+
+/* Zoekknop */
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.search-btn .fas {
+  color: #5cbdbb;
+  font-size: 18px;
+}
+
+/* Filter en sorteer containers */
+.filter-container,
+.sort-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Kaarten container */
 .card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
   max-width: 1280px;
   margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
 }
 
+/* Kaart */
 .card {
   background-color: #f4f4f4;
   padding: 2rem;
@@ -108,7 +162,7 @@
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
 .card-flag {
@@ -116,24 +170,80 @@
   margin-bottom: 1rem;
 }
 
-body {
-  font-family: 'Lato', sans-serif;
-  background-color: #b2e0df;
+/* Favorieten knoppen */
+.fav-btn .favoriet {
+  color: gold;
 }
 
+.fav-btn .niet-favoriet {
+  color: gray;
+  opacity: 0.5;
+}
 
+.remove-fav-btn {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-fav-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive */
+
+/* Tablets */
 @media (max-width: 768px) {
   .card-container {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .search-container,
+  .filter-container,
+  .sort-container {
+    max-width: 90%;
+    margin: 1rem auto;
+  }
+  .search-input {
+    width: 100% !important;
+    padding: 0 10px !important;
   }
 }
 
+/* Mobiel */
 @media (max-width: 480px) {
   .card-container {
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
-
   h1 {
     font-size: 2rem;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .menu-bar li {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .search-container,
+  .filter-container,
+  .sort-container {
+    max-width: 90%;
+    margin: 1rem auto;
+  }
+  .search-input {
+    width: 100% !important;
+    padding: 0 10px !important;
   }
 }
+.search-title {
+  font-size: 1rem;
+  font-weight: 200;
+  margin: 1rem auto -1rem auto;
+  color: #222;
+  text-align: center;
+}
+
