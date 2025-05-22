@@ -129,7 +129,6 @@ REST Countries API
 *Beschrijving:* Thema wisselknop op home pagina.
 
 
-Wil je dat ik deze volledige README inclusief screenshots-sectie in een Word-bestand zet en aanlever?
 
 ## Bronvermelding
 REST Countries API: https://restcountries.com/
@@ -137,3 +136,5 @@ Font Awesome (voor iconen)
 Vite (build tool)
 Inspiratie zoekbalk: https://codepen.io/yuhomyan/pen/XWdYJdv
 Inspiratie navigatie menu: https://codepen.io/kylelavery88/pen/abbvGRN
+chat gpt:(https://chatgpt.com/share/682fa8c7-de48-8004-873e-3417f2865c28)
+canvas : https://canvas.ehb.be/courses/39258/pages/module-8-moderne-browser-features-in-javascript#8_3
