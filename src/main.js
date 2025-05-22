@@ -45,9 +45,20 @@ async function landen(container) {
       <input type="text" placeholder="Zoek een land..." class="search-input" id="searchInput" />
       <a href="#" class="search-btn"><i class="fas fa-search"></i></a>
     </div>
-
+ <div class="filter-container">
+    <label for="continentFilter">Filter op continent:</label>
+    <select id="continentFilter">
+      <option value="alle">Alle continenten</option>
+      <option value="Africa">Afrika</option>
+      <option value="Americas">Amerika</option>
+      <option value="Asia">Azië</option>
+      <option value="Europe">Europa</option>
+      <option value="Oceania">Oceanië</option>
+    </select>
+</div>
     <div id="landenCards" class="card-container"></div>
   `
+  // EINDE FILTER CONTINENT
   // REGIO LANDEN IN KAART WEERGEVEN
   const containerCards = document.getElementById('landenCards')
   const renderLanden = (lijst) => {
@@ -80,17 +91,29 @@ async function landen(container) {
 
   renderLanden(landenData)
 
-  // ZOEKFUNCTIE
-  const zoekInput = document.getElementById('searchInput')
-  zoekInput.addEventListener('input', () => {
-    const zoekTerm = zoekInput.value.toLowerCase()
-    const gefilterd = landenData.filter(land =>
-      land.name.official.toLowerCase().includes(zoekTerm)
-    )
-    renderLanden(gefilterd)
+  // REGIO GECOMBINEERDE ZOEK + FILTER
+const zoekInput = document.getElementById('searchInput')
+const continentFilter = document.getElementById('continentFilter')
+function filterEnToonLanden() {
+  const zoekTerm = zoekInput.value.toLowerCase()
+  const geselecteerdContinent = continentFilter.value
+
+  const gefilterd = landenData.filter(land => {
+    const naam = (land.name?.official || '').toLowerCase()
+    const continent = land.region || 'Onbekend'
+
+    const naamMatch = naam.includes(zoekTerm)
+    const continentMatch = geselecteerdContinent === 'alle' || continent === geselecteerdContinent
+
+    return naamMatch && continentMatch
   })
+  renderLanden(gefilterd)
 }
-// EINDE REGIO INFOLANDEN LADEN
+
+zoekInput.addEventListener('input', filterEnToonLanden)
+continentFilter.addEventListener('change', filterEnToonLanden)
+}
+// EINDE ZOEK + FILTER
 
 // REGIO CONTACT
 const contact = (container) => {
