@@ -1,4 +1,3 @@
-// src/JS/favorites.js
 import { getInfoLanden, favorites as globalFavorites } from './landen.js';
 
 const favoritesPage = async (container) => {

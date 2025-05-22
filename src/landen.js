@@ -1,3 +1,4 @@
+import { toggleTheme } from './theme.js';
 // Favorieten uit localStorage halen of lege lijst
 export let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 // Favorieten opslaan
@@ -9,8 +10,7 @@ function saveFavorites() {
 export async function getInfoLanden() {
   try {
     const res = await fetch('https://restcountries.com/v3.1/all');
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (error) {
     console.error('Fout bij ophalen landen:', error);
     return [];
@@ -61,16 +61,19 @@ function toonLanden(lijst, container, refresh) {
 
   // Favorieten knop eventlisteners
   container.querySelectorAll('.fav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      toggleFavorite(btn.dataset.land, refresh);
-    });
-  });
+    btn.addEventListener('click', () =>
+        toggleFavorite(btn.dataset.land, refresh));
+   });
 }
 
 export async function landen(container) {
   const landenData = await getInfoLanden();
 
   container.innerHTML = `
+    <button id="themeToggleBtn" aria-label="Thema wisselen" class="btn-theme">
+      Wissel thema
+    </button>
+
     <ul class="menu-bar">
       <li><a href="#/">Home</a></li>
       <li><a href="#/landen">Landen</a></li>
@@ -82,31 +85,36 @@ export async function landen(container) {
       <h2 class="search-title">Zoek een land op de balk hieronder:</h2>
     <div class="search-container">
       <input type="text" placeholder="Zoek een land..." id="searchInput" class="search-input" />
-      <a href="#/landen" class="search-btn"><i class="fas fa-search"></i></a>
+      <a href="#/landen" class="search-btn" aria-label="Zoek"><i class="fas fa-search"></i></a>
     </div>
 
-    <div class="filter-container">
-      <label for="continentFilter">Filter op continent:</label>
-      <select id="continentFilter">
-        <option value="alle">Alle continenten</option>
-        <option value="Africa">Afrika</option>
-        <option value="Americas">Amerika</option>
-        <option value="Asia">Azië</option>
-        <option value="Europe">Europa</option>
-        <option value="Oceania">Oceanië</option>
-      </select>
-    </div>
+    <div class="filter-sort-container">
+      <div class="filter-container">
+        <label for="continentFilter">Filter op continent:</label>
+        <select id="continentFilter">
+          <option value="alle">Alle continenten</option>
+          <option value="Africa">Afrika</option>
+          <option value="Americas">Amerika</option>
+          <option value="Asia">Azië</option>
+          <option value="Europe">Europa</option>
+          <option value="Oceania">Oceanië</option>
+        </select>
+      </div>
 
-    <div class="sort-container">
-      <label for="sortOrder">Sorteer op naam:</label>
-      <select id="sortOrder">
-        <option value="asc">A-Z</option>
-        <option value="desc">Z-A</option>
-      </select>
+      <div class="sort-container">
+        <label for="sortOrder">Sorteer op naam:</label>
+        <select id="sortOrder">
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
+        </select>
+      </div>
     </div>
 
     <div id="landenCards" class="card-container"></div>
   `;
+
+  const btnTheme = container.querySelector('#themeToggleBtn');
+  btnTheme.addEventListener('click', () => toggleTheme());
 
   const containerCards = container.querySelector('#landenCards');
   const zoekInput = container.querySelector('#searchInput');

@@ -1,12 +1,5 @@
-/* Reset en basisinstellingen */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html, body {
-  margin: 0;
+  margin: 0; 
   padding: 0;
   width: 100%;
   min-height: 100vh;
@@ -17,6 +10,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Navigatiebalk */
@@ -47,7 +41,7 @@ html, body {
 .menu-bar li:hover {
   color: black;
   background: linear-gradient(to bottom, #e8edec, #d2d1d3);
-  box-shadow: 0 3px 20px rgba(0,0,0,0.6);
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
 }
 
 .menu-bar li a {
@@ -56,7 +50,24 @@ html, body {
   display: block;
 }
 
-/* Zoekbalk container */
+/* Thema knop */
+.btn-theme {
+  background-color: #5cbdbb;
+  color: white;
+  border: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-theme:hover {
+  background-color: #3a8a8a;
+}
+
+/* Zoekbalk */
 .search-container {
   background: #fff;
   height: 40px;
@@ -64,7 +75,7 @@ html, body {
   padding: 0 10px;
   display: flex;
   align-items: center;
-  width: 40px; /* Start smal als knop */
+  width: 40px; /* start klein */
   max-width: 500px;
   margin: 2rem auto;
   box-sizing: border-box;
@@ -78,7 +89,6 @@ html, body {
   transition: width 0.5s ease;
 }
 
-/* Zoekbalk uitklappen bij hover of focus */
 .search-container:hover,
 .search-container:focus-within {
   width: 100%;
@@ -86,7 +96,6 @@ html, body {
   cursor: text;
 }
 
-/* Zoekinput */
 .search-input {
   flex-grow: 1;
   border: none;
@@ -100,7 +109,6 @@ html, body {
   cursor: pointer;
 }
 
-/* Uitklappen input */
 .search-container:hover > .search-input,
 .search-container:focus-within > .search-input {
   width: 100%;
@@ -108,7 +116,6 @@ html, body {
   cursor: text;
 }
 
-/* Zoekknop */
 .search-btn {
   background: none;
   border: none;
@@ -129,12 +136,17 @@ html, body {
 }
 
 /* Filter en sorteer containers */
-.filter-container,
-.sort-container {
-  width: 100%;
+.filter-sort-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
   max-width: 500px;
   margin: 1rem auto;
-  padding: 0 10px;
+  flex-wrap: wrap;
+}
+
+.filter-container, .sort-container {
+  flex: 1 1 200px;
   box-sizing: border-box;
 }
 
@@ -150,7 +162,7 @@ html, body {
   width: 100%;
 }
 
-/* Kaart */
+/* Kaart styling */
 .card {
   background-color: #f4f4f4;
   padding: 2rem;
@@ -195,9 +207,7 @@ html, body {
   background-color: #c0392b;
 }
 
-/* Responsive */
-
-/* Tablets */
+/* Responsive*/
 @media (max-width: 768px) {
   .card-container {
     grid-template-columns: repeat(2, 1fr);
@@ -212,9 +222,12 @@ html, body {
     width: 100% !important;
     padding: 0 10px !important;
   }
+  .filter-sort-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
-/* Mobiel */
 @media (max-width: 480px) {
   .card-container {
     grid-template-columns: 1fr;
@@ -239,6 +252,8 @@ html, body {
     padding: 0 10px !important;
   }
 }
+
+/* Zoek titel */
 .search-title {
   font-size: 1rem;
   font-weight: 200;
@@ -247,3 +262,21 @@ html, body {
   text-align: center;
 }
 
+/* Donker thema */
+body.dark-theme  .search-title {
+  color: #eee;
+}
+body.dark-theme{
+  background-color: #121212;
+  color: #eee;
+}
+
+body.dark-theme .menu-bar {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #eee;
+}
+
+body.dark-theme .menu-bar li:hover {
+  background: linear-gradient(to bottom, #444, #666);
+  color: white;
+}
