@@ -1,7 +1,9 @@
-import { getInfoLanden, favorites as globalFavorites } from './landen.js';
+import { getInfoLanden, getFavorites, removeFavorite } from './landen.js';
+import { observeCards } from './observerAPI.js';
 
 const favoritesPage = async (container) => {
   const landenData = await getInfoLanden();
+  const favorites = getFavorites();
 
   container.innerHTML = `
     <ul class="menu-bar">
@@ -19,7 +21,7 @@ const favoritesPage = async (container) => {
 
   // Filter landenData op favorieten
   const favorietenLanden = landenData.filter(land =>
-    globalFavorites.includes(land.name.official)
+    favorites.includes(land.name.official)
   );
 
   if (favorietenLanden.length === 0) {
@@ -40,19 +42,15 @@ const favoritesPage = async (container) => {
     `;
   }).join('');
 
+  // Observer toepassen zodat kaarten zichtbaar worden met animatie
+  observeCards(containerCards);
+
   // Favorieten verwijderen knop
   container.querySelectorAll('.remove-fav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const landNaam = btn.dataset.land;
-
-      // Verwijder uit favorites
-      const index = globalFavorites.indexOf(landNaam);
-      if (index > -1) {
-        globalFavorites.splice(index, 1);
-        localStorage.setItem('favorites', JSON.stringify(globalFavorites));
-        // Herlaad favorieten pagina
-        favoritesPage(container);
-      }
+      removeFavorite(landNaam);
+      favoritesPage(container);
     });
   });
 };

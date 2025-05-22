@@ -1,7 +1,29 @@
 import { toggleTheme } from './theme.js';
-// Favorieten uit localStorage halen of lege lijst
-export let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-// Favorieten opslaan
+import { observeCards } from './observerAPI.js';
+
+// Interne opslag favorieten
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+// Favorieten ophalen
+export function getFavorites() {
+  return [...favorites];
+}
+
+// Favoriet toevoegen
+export function addFavorite(landNaam) {
+  if (!favorites.includes(landNaam)) {
+    favorites.push(landNaam);
+    saveFavorites();
+  }
+}
+
+// Favoriet verwijderen
+export function removeFavorite(landNaam) {
+  favorites = favorites.filter(f => f !== landNaam);
+  saveFavorites();
+}
+
+// Favorieten opslaan in localStorage
 function saveFavorites() {
   localStorage.setItem('favorites', JSON.stringify(favorites));
 }
@@ -17,45 +39,35 @@ export async function getInfoLanden() {
   }
 }
 
-// Favoriet toggle functie
-function toggleFavorite(landNaam, refresh) {
+// Favoriet toggle functie met visuele feedback animatie
+export function toggleFavorite(landNaam, refresh) {
   if (favorites.includes(landNaam)) {
-    favorites = favorites.filter(f => f !== landNaam);
+    removeFavorite(landNaam);
   } else {
-    favorites.push(landNaam);
+    addFavorite(landNaam);
   }
-  saveFavorites();
-  refresh(); // direct refreshen
+
+  const btn = document.querySelector(`.fav-btn[data-land="${landNaam}"] i`);
+  if (btn) {
+    btn.classList.add('animate-pulse');
+    btn.addEventListener('animationend', () => {
+      btn.classList.remove('animate-pulse');
+    }, { once: true });
+  }
+
+  refresh();
 }
 
-// IntersectionObserver (ik neem over van module 8.4)
-function observeCards(container) {
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1
-  });
-
-  container.querySelectorAll('.card').forEach(card => observer.observe(card));
-}
-// landen kaarten 
+// Kaarten tonen
 function toonLanden(lijst, container, refresh) {
   container.innerHTML = lijst.map(land => {
     const naam = land.name.official;
-    const hoofdstad = land.capital;
-    const continent = land.region;
+    const hoofdstad = Array.isArray(land.capital) ? land.capital[0] : (land.capital || 'Onbekend');
+    const continent = land.region || 'Onbekend';
     const vlag = land.flags.png;
     const bevolking = land.population ? land.population.toLocaleString() : 'Onbekend';
     const oppervlakte = land.area ? land.area.toLocaleString() + ' km²' : 'Onbekend';
-    let talen = 'Onbekend';
-    if (land.languages) {
-      talen = Object.values(land.languages).join(', ');
-    }
+    const talen = land.languages ? Object.values(land.languages).join(', ') : 'Onbekend';
 
     let munt = 'Onbekend';
     if (land.currencies && Object.keys(land.currencies).length > 0) {
@@ -85,9 +97,10 @@ function toonLanden(lijst, container, refresh) {
 
   // Favorieten knop eventlisteners
   container.querySelectorAll('.fav-btn').forEach(btn => {
-    btn.addEventListener('click', () =>
-        toggleFavorite(btn.dataset.land, refresh));
-   });
+    btn.addEventListener('click', () => toggleFavorite(btn.dataset.land, refresh));
+  });
+
+  // Observer toepassen voor animatie
   observeCards(container);
 }
 
