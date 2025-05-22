@@ -28,6 +28,21 @@ function toggleFavorite(landNaam, refresh) {
   refresh(); // direct refreshen
 }
 
+// IntersectionObserver (ik neem over van module 8.4)
+function observeCards(container) {
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  container.querySelectorAll('.card').forEach(card => observer.observe(card));
+}
 // landen kaarten 
 function toonLanden(lijst, container, refresh) {
   container.innerHTML = lijst.map(land => {
@@ -35,6 +50,12 @@ function toonLanden(lijst, container, refresh) {
     const hoofdstad = land.capital;
     const continent = land.region;
     const vlag = land.flags.png;
+    const bevolking = land.population ? land.population.toLocaleString() : 'Onbekend';
+    const oppervlakte = land.area ? land.area.toLocaleString() + ' km²' : 'Onbekend';
+    let talen = 'Onbekend';
+    if (land.languages) {
+      talen = Object.values(land.languages).join(', ');
+    }
 
     let munt = 'Onbekend';
     if (land.currencies && Object.keys(land.currencies).length > 0) {
@@ -51,6 +72,9 @@ function toonLanden(lijst, container, refresh) {
         <h2>${naam}</h2>
         <p>Hoofdstad: ${hoofdstad}</p>
         <p>Continent: ${continent}</p>
+        <p>Bevolking: ${bevolking}</p>
+        <p>Oppervlakte: ${oppervlakte}</p>
+        <p>Talen: ${talen}</p>
         <p>Munt: ${munt}</p>
         <button class="fav-btn" data-land="${naam}" aria-label="Favoriet toggle">
           <i class="fas fa-star ${isFavoriet ? 'favoriet' : 'niet-favoriet'}"></i>
@@ -64,6 +88,7 @@ function toonLanden(lijst, container, refresh) {
     btn.addEventListener('click', () =>
         toggleFavorite(btn.dataset.land, refresh));
    });
+  observeCards(container);
 }
 
 export async function landen(container) {
