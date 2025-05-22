@@ -56,6 +56,13 @@ async function landen(container) {
       <option value="Oceania">Oceanië</option>
     </select>
 </div>
+  <div class="sort-container">
+    <label for="sortOrder">Sorteer op naam:</label>
+    <select id="sortOrder">
+      <option value="asc">A-Z</option>
+      <option value="desc">Z-A</option>
+    </select>
+  </div>
     <div id="landenCards" class="card-container"></div>
   `
   // EINDE FILTER CONTINENT
@@ -91,27 +98,34 @@ async function landen(container) {
 
   renderLanden(landenData)
 
-  // REGIO GECOMBINEERDE ZOEK + FILTER
+  // REGIO GECOMBINEERDE ZOEK + FILTER + SORT
 const zoekInput = document.getElementById('searchInput')
 const continentFilter = document.getElementById('continentFilter')
+const sortOrder = document.getElementById('sortOrder')
 function filterEnToonLanden() {
-  const zoekTerm = zoekInput.value.toLowerCase()
+  const zoekLand = zoekInput.value.toLowerCase()
   const geselecteerdContinent = continentFilter.value
-
+  const geselecteerdeSortering = sortOrder.value
   const gefilterd = landenData.filter(land => {
     const naam = (land.name?.official || '').toLowerCase()
     const continent = land.region || 'Onbekend'
-
-    const naamMatch = naam.includes(zoekTerm)
+    const naamMatch = naam.includes(zoekLand)
     const continentMatch = geselecteerdContinent === 'alle' || continent === geselecteerdContinent
-
-    return naamMatch && continentMatch
+    return naamMatch && continentMatch  
+  })
+  gefilterd.sort((a, b) => {
+    const naamA = a.name?.official || ''
+    const naamB = b.name?.official || ''
+    return geselecteerdeSortering === 'asc'
+      ? naamA.localeCompare(naamB)
+      : naamB.localeCompare(naamA)
   })
   renderLanden(gefilterd)
 }
 
 zoekInput.addEventListener('input', filterEnToonLanden)
 continentFilter.addEventListener('change', filterEnToonLanden)
+sortOrder.addEventListener('change', filterEnToonLanden)
 }
 // EINDE ZOEK + FILTER
 
